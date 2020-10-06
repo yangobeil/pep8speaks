@@ -239,8 +239,9 @@ def run_pycodestyle(ghrequest, config):
         ghrequest.results[filename] = []
         for error in list(ghrequest.extra_results[filename]):
             relevant_error_pattern = r"^file_to_check.py:\d+:\d+:\s[WEF]\d+\s.*"
+            relevant_error_pattern_annotations = r"^file_to_check.py:\d+:\d+:\sANN\d+\s.*"
             # Other error codes are B C D T
-            if re.search(relevant_error_pattern, error):
+            if re.search(relevant_error_pattern, error) or re.search(relevant_error_pattern_annotations, error):
                 ghrequest.results[filename].append(error.replace("file_to_check.py", filename))
                 ghrequest.extra_results[filename].remove(error)
 
